@@ -13,7 +13,7 @@ import java.sql.SQLException;
  *
  * @author Barbara
  */
-public class DatabaseConnection {
+public abstract class DatabaseConnection {
     //Here it will perform the database connection information
     //CRUD Operations rely on this connection
     
@@ -22,6 +22,15 @@ public class DatabaseConnection {
     protected final static String USER = "ooc2023";
     protected final static String PASSWORD = "ooc2023";
     
+    //This schema name may or may not have been created
+    protected final static String DB_NAME = "";
+    protected final static String TABLE = "";
+    
+    // Now we create the final Database URL with the schema name 
+    protected final static String DB_URL = DB_BASE_URL + "/" + DB_NAME;
+    
+    
+    /*
   public static void main(String[] args) {
         try (Connection conn = DriverManager.getConnection(DB_BASE_URL, USER, PASSWORD)) {
             System.out.println("Connection successful!");
@@ -29,4 +38,5 @@ public class DatabaseConnection {
             System.err.println("Connection failed: " + e.getMessage());
         }
     }
+*/
 }
