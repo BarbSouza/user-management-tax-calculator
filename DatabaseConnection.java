@@ -12,5 +12,11 @@ public class DatabaseConnection {
     //CRUD Operations rely on this connection
     
     
+    protected final static String DB_BASE_URL = "jdbc:mysql://localhost";
+    protected final static String USER = "ooc2023";
+    protected final static String PASSWORD = "ooc2023";
+    
+    
+    
     
 }
