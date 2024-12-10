@@ -23,8 +23,8 @@ public abstract class DatabaseConnection {
     protected final static String PASSWORD = "ooc2023";
     
     //This schema name may or may not have been created
-    protected final static String DB_NAME = "";
-    protected final static String TABLE = "";
+    protected final static String DB_NAME = "user_management";
+    protected final static String TABLE = "user";
     
     // Now we create the final Database URL with the schema name 
     protected final static String DB_URL = DB_BASE_URL + "/" + DB_NAME;
