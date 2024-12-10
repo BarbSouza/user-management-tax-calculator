@@ -5,6 +5,7 @@
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -44,6 +45,18 @@ public class DatabaseSetup extends DatabaseConnection {
                     
                     // take this String query and execute it 
                     stmt.execute(userTableSQL);
+                    
+                    // Check if the admin user already exists
+            String adminCheckSQL = "SELECT * FROM " + USER_TABLE + " WHERE username = 'CCT';";
+            ResultSet resultSet = stmt.executeQuery(adminCheckSQL);
+
+            // If the admin does not exist, insert the admin record
+            if (!resultSet.next()) {
+                String adminInsertSQL = "INSERT INTO " + USER_TABLE + " (username, password, role, name, surname) VALUES ('CCT', 'Dublin', 'admin', 'System', 'Admin');";
+                stmt.executeUpdate(adminInsertSQL);
+                System.out.println("Admin user 'CCT' has been created.");
+            }
+
                     
                     return true;
             }catch(Exception e){
