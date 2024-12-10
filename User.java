@@ -19,6 +19,7 @@ public class User {
     private String surname;
     
     //Constructors
+    //Add the user to the database
     public User(int userId, String username, String password, String role, String name, String surname) {
         this.userId = userId;
         this.username = username;
@@ -27,6 +28,7 @@ public class User {
         this.name = name;
         this.surname = surname;
     }
+    
     
     //Getter and Setters
 

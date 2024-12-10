@@ -33,7 +33,7 @@ public class DatabaseSetup extends DatabaseConnection {
                     // Query the db using the USE
                     stmt.execute("USE " + DB_NAME + ";"); // database (Schema) pointer
                     // Create a query to inert into the db 
-                    String userTableSQL = "CREATE TABLE IF NOT EXISTS " + TABLE + " ("
+                    String userTableSQL = "CREATE TABLE IF NOT EXISTS " + USER_TABLE + " ("
                     + "userId INT AUTO_INCREMENT PRIMARY KEY,"
                     + "username VARCHAR(50) NOT NULL UNIQUE,"
                     + "password VARCHAR(255) NOT NULL,"
@@ -51,7 +51,7 @@ public class DatabaseSetup extends DatabaseConnection {
                 return false;
             }
     }
-    
+/*    
     // Main method to test the setup
     public static void main(String[] args) {
         try {
@@ -67,7 +67,7 @@ public class DatabaseSetup extends DatabaseConnection {
         }
     }
     
-    
+ */   
 }
     
 // create some logic to ensure we do not run into issues with the db connection
