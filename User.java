@@ -28,6 +28,25 @@ public class User {
         this.name = name;
         this.surname = surname;
     }
+
+    //Read the user data to the admin
+    //they can't see the user password
+    public User(int userId, String username, String role, String name, String surname) {
+        this.userId = userId;
+        this.username = username;
+        this.role = role;
+        this.name = name;
+        this.surname = surname;
+    }
+    
+    //Read the user own data back to them so they can change it
+    public User(String username, String password, String name, String surname) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+    }
+    
     
     
     //Getter and Setters
