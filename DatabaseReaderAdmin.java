@@ -33,11 +33,10 @@ public class DatabaseReaderAdmin extends DatabaseConnection {
                 
                 int userId = results.getInt("userId");
                 String username = results.getString("username");
-                String role = results.getString("role");
                 String name = results.getString("name");
                 String surname = results.getString("surname");
                 
-                User user = new User(userId, username, role, name, surname);
+                User user = new User(userId, username, name, surname);
                 users.add(user);
             }
                 

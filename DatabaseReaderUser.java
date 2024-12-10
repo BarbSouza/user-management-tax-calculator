@@ -30,13 +30,13 @@ public class DatabaseReaderUser extends DatabaseConnection{
             ResultSet results = stmt.executeQuery(String.format("SELECT * FROM %s;", USER_TABLE));
             // Create a check for results and create a while loop to iterate through them
             while(results.next()){
-               
+               int userId = results.getInt("userId");
                 String username = results.getString("username");
                 String password = results.getString("password");
                 String name = results.getString("name");
                 String surname = results.getString("surname");
                 
-                User user = new User(username, password, name, surname);
+                User user = new User(userId, username, password, name, surname);
                 users.add(user);
             }
                 
