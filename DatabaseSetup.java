@@ -33,16 +33,14 @@ public class DatabaseSetup extends DatabaseConnection {
                     // Query the db using the USE
                     stmt.execute("USE " + DB_NAME + ";"); // database (Schema) pointer
                     // Create a query to inert into the db 
-                    String userTableSQL = 
-//                            CREATE TABLE IF NOT EXISTS 
-                            "CREATE TABLE IF NOT EXISTS " + TABLE + "( "
-                            + "user_id INT AUTO_INCREMENT PRIMARY KEY,"
-                            + "username VARCHAR(50),"
-                            + "password VARCHAR(255),"
-                            + "role ENUM('admin', 'regular') NOT NULL,"
-                            + "name VARCHAR(100),"
-                            + "surname VARCHAR(100),"
-                            + ");";
+                    String userTableSQL = "CREATE TABLE IF NOT EXISTS " + TABLE + " ("
+                    + "userId INT AUTO_INCREMENT PRIMARY KEY,"
+                    + "username VARCHAR(50) NOT NULL UNIQUE,"
+                    + "password VARCHAR(255) NOT NULL,"
+                    + "role ENUM('admin', 'regular') NOT NULL,"
+                    + "name VARCHAR(100),"
+                    + "surname VARCHAR(100)"
+                    + ");";
                     
                     // take this String query and execute it 
                     stmt.execute(userTableSQL);
@@ -53,6 +51,22 @@ public class DatabaseSetup extends DatabaseConnection {
                 return false;
             }
     }
+    
+    // Main method to test the setup
+    public static void main(String[] args) {
+        try {
+            boolean success = setupDB();
+            if (success) {
+                System.out.println("Setup completed successfully.");
+            } else {
+                System.err.println("Setup failed.");
+            }
+        } catch (Exception e) {
+            System.err.println("An exception occurred: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
     
 }
     
