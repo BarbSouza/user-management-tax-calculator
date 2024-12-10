@@ -10,6 +10,7 @@ import java.util.ArrayList;
  *
  * @author Barbara
  */
+
 public class DatabaseReaderAdmin extends DatabaseConnection {
 
     // Method to get all users for admin to view
