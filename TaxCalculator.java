@@ -44,9 +44,10 @@ public class TaxCalculator {
     
     public static TaxCalculationResult calculateTax(double grossIncome, double taxCredits) {
         double incomeTaxRate = 0.2; 
-        double uscRate = 0.05;  
-        double prsiRate = 0.04;   
-
+        double uscRate = 0.0106;  
+        double prsiRate = 0.019;   
+        //numbers got from my actual payslip
+        //https://www.citizensinformation.ie/en/money-and-tax/tax/income-tax/how-your-tax-is-calculated/
         
         double incomeTax = (grossIncome * incomeTaxRate) - taxCredits;
         if (incomeTax < 0) incomeTax = 0; // Ensure no negative tax
