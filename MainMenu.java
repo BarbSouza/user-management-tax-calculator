@@ -1,6 +1,7 @@
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /*
@@ -25,25 +26,45 @@ public class MainMenu {
             Scanner scanner = new Scanner(System.in);
             
             int choice = 0;
+            int mainChoice = 0;
+            
+            
             while (choice != 3) {
-                System.out.println(" ______________________________________________ \n"
-                        +"|----------------------------------------------|\n"
-                        +"|___ Welcome to the User Management System ___ |\n"
-                        +"|----------------------------------------------|\n"
-                        +"|___ Main menu ________________________________|\n"
-                        +"|----------------------------------------------|\n"
-                        +"|----------------------------------------------|\n"
-                        +"|___ 1) Log in - ______________________________|\n"
-                        +"|___ 2) Sing up (Regular User) - ______________|\n"
-                        +"|___ 3) Exit - ________________________________|\n"
-                        +"|----------------------------------------------|\n"
-                        +"|----------------------------------------------|\n"
-                        +"|______________________________________________|\n"
-                       );
-
-                int mainChoice = scanner.nextInt();
-                scanner.nextLine(); // Consume newline character
-
+                boolean validInput = false;
+                    while (!validInput) {
+                        try{
+                            System.out.println(" ______________________________________________ \n"
+                                    +"|----------------------------------------------|\n"
+                                    +"|___ Welcome to the User Management System ___ |\n"
+                                    +"|----------------------------------------------|\n"
+                                    +"|___ Main menu ________________________________|\n"
+                                    +"|----------------------------------------------|\n"
+                                    +"|----------------------------------------------|\n"
+                                    +"|___ 1) Log in - ______________________________|\n"
+                                    +"|___ 2) Sing up (Regular User) - ______________|\n"
+                                    +"|___ 3) Exit - ________________________________|\n"
+                                    +"|----------------------------------------------|\n"
+                                    +"|----------------------------------------------|\n"
+                                    +"|______________________________________________|\n"
+                                   );
+                                    mainChoice = scanner.nextInt();
+                                    scanner.nextLine(); // Consume newline character
+                                    validInput = true;
+                        }catch (Exception e){
+                            System.out.println(" ______________________________________________ \n"
+                                               + "|----------------------------------------------|\n"
+                                               + "|___ User Management System ___________________|\n"
+                                               + "|----------------------------------------------|\n"
+                                               + "|___ ERROR: Please enter a valid choice. ______|\n"
+                                               + "|----------------------------------------------|\n"
+                                               + "|______________________________________________|\n"
+                                              );
+                            scanner.next();
+                        }
+                   }
+                    
+                    
+                    
                 switch (mainChoice) {
                     case 1: // Log in
                         System.out.println(" ______________________________________________ \n"
@@ -184,6 +205,7 @@ public class MainMenu {
             System.out.println("Error setting up the database. Please check your connection.");
         }
     }
+    
 
     private static void adminMenu(Scanner scanner, DatabaseReaderAdmin dbReaderAdmin, DatabaseWriter dbWriter, User adminUser) throws SQLException {
         
@@ -351,9 +373,9 @@ public class MainMenu {
                                         +"|---------------------------------------------------------------------------------------------------------------|\n"
                                         +"|------------- Transactions  -----------------------------------------------------------------------------------|\n"
                                         +"|---------------------------------------------------------------------------------------------------------------|");
-                        System.out.printf("| %-13s | %-13s | %-13s | %-13s | %-13s | %-13s | %-13s |\n", "Username", "Gross Income", "Tax Credits", "Income Tax", "USC", "PRSI", "Total Tax");
+                        System.out.printf("| %-13s | %-13s | %-13s | %-13s | %-13s | %-13s | %-13s |\n", "User ID", "Gross Income", "Tax Credits", "Income Tax", "USC", "PRSI", "Total Tax");
                         for (TaxCalculation newTax : tax) {
-                        System.out.printf("| %-13s | %-13s | %-13s | %-13s | %-13s | %-13s | %-13s |\n",newTax.getUsername(), newTax.getGrossIncome(), newTax.getTaxCredits(), newTax.getIncomeTax(), newTax.getUsc(), newTax.getPrsi(), newTax.getTotalTax());
+                        System.out.printf("| %-13s | %-13s | %-13s | %-13s | %-13s | %-13s | %-13s |\n",newTax.getUserId(), newTax.getGrossIncome(), newTax.getTaxCredits(), newTax.getIncomeTax(), newTax.getUsc(), newTax.getPrsi(), newTax.getTotalTax());
                                         }
                         System.out.println("|_______________________________________________________________________________________________________________| ");
                         
@@ -391,8 +413,10 @@ public class MainMenu {
                         +"|----------------------------------------------|\n"
                         +"|----------------------------------------------|\n"
                         +"|___ 1) Modify Profile - ______________________|\n"
-                        +"|___ 2) Check your finacial information - _____|\n"
-                        +"|___ 3) Log Out - _____________________________|\n"
+                        +"|___ 2) Tax calculation - _____________________|\n"
+                        +"|___ 3) Check your profile information - ______|\n"
+                        +"|___ 4) Check your financial history - ________|\n"
+                        +"|___ 5) Log Out - _____________________________|\n"
                         +"|----------------------------------------------|\n"
                         +"|______________________________________________|\n"
                        );
@@ -536,7 +560,7 @@ public class MainMenu {
                                       +"|______________________________________________|"
                                      );
                     TaxCalculation calculation = new TaxCalculation(
-                        loggedInUser.getUsername(),
+                        loggedInUser.getUserId(),
                         grossIncome,
                         taxCredits,
                         result.getIncomeTax(),
@@ -564,7 +588,54 @@ public class MainMenu {
                                        );
                     }
                     break;
-                case 3: 
+                case 3:
+////                    User loggedInUser = dbReaderUser.loginUser(username, password);
+//                    User loggedIn = dbReaderUser.loginUser(username, password);
+                    User info = dbReaderUser.getUserData(loggedInUser.getUserId());
+                    
+                    if(info != null){
+                        System.out.println(info);
+                    }else{
+                        System.out.println(" ______________________________________________ \n"
+                                        +"|----------------------------------------------|\n"
+                                        +"|___ User Management System ___________________|\n"
+                                        +"|----------------------------------------------|\n"
+                                        +"|_ No user found ______________________________|\n"
+                                        +"|----------------------------------------------|\n"
+                                        +"|______________________________________________|\n"
+                                       );
+                    }
+                    break;
+                case 4:
+//                    ArrayList<TaxCalculation> tax = dbReaderAdmin.getUserOperations();
+                    List<TaxCalculation> taxHistory = dbReaderUser.getUserFinancialData(loggedInUser.getUserId());
+                    
+                    if(taxHistory != null){
+                        System.out.println(" __________________________________________________________________________________________________________________________________ \n"
+                                        +"|------------------------------------------------------------------------------------------------------------------------------------|\n"
+                                        +"|___ User Management System _________________________________________________________________________________________________________|\n"
+                                        +"|------------------------------------------------------------------------------------------------------------------------------------|\n"
+                                        +"|___ Your Financial Information _____________________________________________________________________________________________________|\n"
+                                        +"|------------------------------------------------------------------------------------------------------------------------------------|"
+                                       );
+                                            
+                        System.out.printf("| %-16s | %-16s | %-16s | %-16s | %-16s | %-16s | %-16s |\n", "Calculation ID", "Calculation Date", "Gross Income", "Tax Credits", "USC", "PRSI", "Total Tax");
+                        for(TaxCalculation taxCalculation : taxHistory){
+                            System.out.println(taxCalculation);
+                        }
+                        System.out.println("|____________________________________________________________________________________________________________________________________|");
+                    }else{
+                        System.out.println(" ______________________________________________ \n"
+                                        +"|----------------------------------------------|\n"
+                                        +"|___ User Management System ___________________|\n"
+                                        +"|----------------------------------------------|\n"
+                                        +"|_ No Data found ______________________________|\n"
+                                        +"|----------------------------------------------|\n"
+                                        +"|______________________________________________|\n"
+                                       );
+                    }
+                    break;
+                case 5: 
                     return;
                 default:
                     System.out.println(" ______________________________________________ \n"
