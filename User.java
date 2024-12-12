@@ -97,4 +97,13 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+        @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("| %-5s | %-13s | %-13s | %-13s | %-13s |\n", "ID", "Username", "Name", "Surname", "Password"))
+          .append("|------------------------------------------------------------------------------------|\n")
+          .append(String.format("| %-5d | %-13s | %-13s | %-13s | %-13s |\n", userId, username, name, surname, password));
+        return sb.toString();
+    }
+  
 }

@@ -10,11 +10,14 @@
  */
 public class TaxCalculation {
     private int calculationId;
-    private String username;
+    private int userId;
+    private String calculationDateStr;
+//    private String username;
     private double grossIncome, taxCredits, incomeTax, usc, prsi, totalTax;
 
-    public TaxCalculation(String username, double grossIncome, double taxCredits, double incomeTax, double usc, double prsi, double totalTax) {
-        this.username = username;
+    public TaxCalculation(int userId, double grossIncome, double taxCredits, double incomeTax, double usc, double prsi, double totalTax) {
+        this.userId = userId;
+//        this.username = username;
         this.grossIncome = grossIncome;
         this.taxCredits = taxCredits;
         this.incomeTax = incomeTax;
@@ -23,15 +26,36 @@ public class TaxCalculation {
         this.totalTax = totalTax;
     }
     
-    public TaxCalculation(int calculationId,String username, double grossIncome, double taxCredits, double incomeTax, double usc, double prsi, double totalTax) {
+    public TaxCalculation(int calculationId,int userId, double grossIncome, double taxCredits, double incomeTax, double usc, double prsi, double totalTax) {
         this.calculationId = calculationId;
-        this.username = username;
+        this.userId = userId;
+//        this.username = username;
         this.grossIncome = grossIncome;
         this.taxCredits = taxCredits;
         this.incomeTax = incomeTax;
         this.usc = usc;
         this.prsi = prsi;
         this.totalTax = totalTax;
+    }
+    
+    public TaxCalculation(int calculationId, int userId, double grossIncome, double taxCredits, double incomeTax, double usc, double prsi, double totalTax, String calculationDateStr) {
+        this.calculationId = calculationId;
+        this.userId = userId;
+        this.grossIncome = grossIncome;
+        this.taxCredits = taxCredits;
+        this.incomeTax = incomeTax;
+        this.usc = usc;
+        this.prsi = prsi;
+        this.totalTax = totalTax;
+        this.calculationDateStr = calculationDateStr;
+    }
+
+    public String getCalculationDateStr() {
+        return calculationDateStr;
+    }
+
+    public void setCalculationDateStr(String calculationDate) {
+        this.calculationDateStr = calculationDate;
     }
 
     public int getCalculationId() {
@@ -42,9 +66,17 @@ public class TaxCalculation {
         this.calculationId = calculationId;
     }
 
-    public String getUsername() { 
-        return username; 
+    public int getUserId() {
+        return userId;
     }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+//    public String getUsername() { 
+//        return username; 
+//    }
     public double getGrossIncome() { 
         return grossIncome; 
     }
@@ -64,4 +96,13 @@ public class TaxCalculation {
         return totalTax; 
     }
     
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("|------------------------------------------------------------------------------------------------------------------------------------| \n")
+          .append(String.format("| %-16s | %-16s | %-16s | %-16s | %-16s | %-16s | %-16s |\n", calculationId, calculationDateStr, grossIncome, taxCredits, usc, prsi, totalTax))
+          .append("|------------------------------------------------------------------------------------------------------------------------------------|\n");
+        return sb.toString();
+    }
+
 }

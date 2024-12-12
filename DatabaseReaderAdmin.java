@@ -56,7 +56,8 @@ public class DatabaseReaderAdmin extends DatabaseConnection {
             ResultSet results = stmt.executeQuery("SELECT * FROM " + TAX_TABLE + ";");
             while (results.next()) {
                 int calculationId = results.getInt("calculationId");
-                String username = results.getString("username");
+                int userId = results.getInt("userId");
+//                String username = results.getString("username");
                 double grossIncome = results.getDouble("gross_income");
                 double taxCredits = results.getDouble("tax_credits");
                 double incomeTax = results.getDouble("income_tax");
@@ -64,7 +65,7 @@ public class DatabaseReaderAdmin extends DatabaseConnection {
                 double prsi = results.getDouble("prsi");
                 double totalTax = results.getDouble("total_tax");
                 
-                TaxCalculation newTax = new TaxCalculation(calculationId, username, grossIncome, taxCredits, incomeTax, usc, prsi, totalTax);
+                TaxCalculation newTax = new TaxCalculation(calculationId, userId, grossIncome, taxCredits, incomeTax, usc, prsi, totalTax);
                 operations.add(newTax);
             }
         } catch (SQLException e) {

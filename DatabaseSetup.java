@@ -47,36 +47,35 @@ public class DatabaseSetup extends DatabaseConnection {
                     // take this String query and execute it 
                     stmt.execute(userTableSQL);
                     
+                    
                     String adminCheckSQL = "SELECT * FROM " + USER_TABLE + " WHERE username = 'CCT';";
                     ResultSet resultSet = stmt.executeQuery(adminCheckSQL);
-                    
                     if (!resultSet.next()) {
                     String adminInsertSQL = "INSERT INTO " + USER_TABLE + " (username, password, role, name, surname) VALUES ('CCT', 'Dublin', 'admin', 'System', 'Admin');";
                     stmt.executeUpdate(adminInsertSQL);
                     System.out.println("Admin user 'CCT' has been created.");
                     }
-                    
                     String taxTableSQL = "CREATE TABLE IF NOT EXISTS tax_calculations ("
-                        + "calculationId INT AUTO_INCREMENT PRIMARY KEY,"
-                        + "username VARCHAR(50) NOT NULL,"
-                        + "gross_income DECIMAL(10, 2) NOT NULL,"
-                        + "tax_credits DECIMAL(10, 2) NOT NULL,"
-                        + "income_tax DECIMAL(10, 2) NOT NULL,"
-                        + "usc DECIMAL(10, 2) NOT NULL,"
-                        + "prsi DECIMAL(10, 2) NOT NULL,"
-                        + "total_tax DECIMAL(10, 2) NOT NULL,"
-                        + "calculation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+                        + "calculationId INT AUTO_INCREMENT PRIMARY KEY, "
+                        + "userId INT NOT NULL, "
+                        + "gross_income DECIMAL(10, 2) NOT NULL, "
+                        + "tax_credits DECIMAL(10, 2) NOT NULL, "
+                        + "income_tax DECIMAL(10, 2) NOT NULL, "
+                        + "usc DECIMAL(10, 2) NOT NULL, "
+                        + "prsi DECIMAL(10, 2) NOT NULL, "
+                        + "total_tax DECIMAL(10, 2) NOT NULL, "
+                        + "calculation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
+                        + "FOREIGN KEY (userId) REFERENCES user(userId)"
                         + ");";
                     stmt.execute(taxTableSQL);
                     return true;
-                    
             }catch(Exception e){
                 e.printStackTrace();
                 return false;
             }
     }
-
-
+    
+    
 /*    
     // Main method to test the setup
     public static void main(String[] args) {

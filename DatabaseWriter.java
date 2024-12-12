@@ -62,9 +62,9 @@ public class DatabaseWriter extends DatabaseConnection{
          Statement stmt = conn.createStatement()) {
 
         String sql = String.format(
-            "INSERT INTO tax_calculations (username, gross_income, tax_credits, income_tax, usc, prsi, total_tax) " +
+            "INSERT INTO tax_calculations (userId, gross_income, tax_credits, income_tax, usc, prsi, total_tax) " +
             "VALUES ('%s', %.2f, %.2f, %.2f, %.2f, %.2f, %.2f);",
-            calculation.getUsername(),
+            calculation.getUserId(),
             calculation.getGrossIncome(),
             calculation.getTaxCredits(),
             calculation.getIncomeTax(),
