@@ -38,10 +38,16 @@ public class DatabaseWriter extends DatabaseConnection{
     }
     
     public boolean modifyUserProfile(int userId, String newUsername, String newPassword, String newName, String newSurname) throws SQLException {
+        
+        DataTypeManipulation DTM = new DataTypeManipulation();
+         
+        String capitalisedName = DTM.capitaliseFirstLetter(newName);
+        String capitalisedSurname = DTM.capitaliseFirstLetter(newSurname);
+        
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              Statement stmt = conn.createStatement()) {
             String sql = String.format("UPDATE %s SET username='%s', password='%s', name='%s', surname='%s' WHERE userId=%d;",
-                    USER_TABLE, newUsername, newPassword, newName, newSurname, userId);
+                    USER_TABLE, newUsername, newPassword, capitalisedName, capitalisedSurname, userId);
             stmt.executeUpdate(sql);
             return true;
         } catch (SQLException e) {
