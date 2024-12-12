@@ -73,7 +73,7 @@ public class DatabaseReaderAdmin extends DatabaseConnection {
         }
 
         return operations;
-    }
-       
-}
+    }  
+    
+}    
 

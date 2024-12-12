@@ -17,10 +17,15 @@ public class DatabaseWriter extends DatabaseConnection{
     // THis method will write information to the databse 
     
      public boolean addUser(User user) throws SQLException {
+        DataTypeManipulation DTM = new DataTypeManipulation();
+         
+        String capitalisedName = DTM.capitaliseFirstLetter(user.getName());
+        String capitalisedSurname = DTM.capitaliseFirstLetter(user.getSurname());
+        
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              Statement stmt = conn.createStatement()) {
             String sql = String.format("INSERT INTO %s (username, password, name, surname, role) VALUES ('%s', '%s', '%s', '%s', 'regular');",
-                    USER_TABLE, user.getUsername(), user.getPassword(), user.getName(), user.getSurname());
+                    USER_TABLE, user.getUsername(), user.getPassword(), capitalisedName, capitalisedSurname);
             stmt.executeUpdate(sql);
             return true;
         } catch (SQLException e) {
@@ -45,17 +50,39 @@ public class DatabaseWriter extends DatabaseConnection{
         }
     }
     
-    public boolean removeUser(int userId) throws SQLException {
+    
+    
+    public boolean removeUserTransactions(int userId) throws SQLException {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement()) {
-            String sql = String.format("DELETE FROM %s WHERE userId=%d;", USER_TABLE, userId);
+                Statement stmt = conn.createStatement()){
+            String sql = String.format("DELETE FROM %s WHERE userId=%d;", TAX_TABLE, userId);
             stmt.executeUpdate(sql);
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException e){
             e.printStackTrace();
             return false;
         }
+        
     }
+    
+    public boolean removeUser(int userId) throws SQLException {
+        
+        int id = userId;
+        removeUserTransactions(id);
+            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+                 Statement stmt = conn.createStatement()) {
+                String sql = String.format("DELETE FROM %s WHERE userId=%d;", USER_TABLE, userId);
+                int contentDeleted = stmt.executeUpdate(sql);
+                if(contentDeleted > 0){
+                return true;
+                }else {
+                    return false;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            } 
+        }
     
     public boolean addTaxCalculation(TaxCalculation calculation) throws SQLException {
     try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
