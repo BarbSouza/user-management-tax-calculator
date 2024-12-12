@@ -12,12 +12,13 @@ import java.sql.Statement;
 /**
  *
  * @author Barbara
+ * @author chrystiandybas
+ * @author heloi
  */
 public class DatabaseSetup extends DatabaseConnection {
-    //Create logic to procces the database creation and make use of the databe information
     
- 
-    public static boolean setupDB() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException{
+    
+ public static boolean setupDB() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException{
     
       
             
@@ -35,35 +36,47 @@ public class DatabaseSetup extends DatabaseConnection {
                     stmt.execute("USE " + DB_NAME + ";"); // database (Schema) pointer
                     // Create a query to inert into the db 
                     String userTableSQL = "CREATE TABLE IF NOT EXISTS " + USER_TABLE + " ("
-                    + "userId INT AUTO_INCREMENT PRIMARY KEY,"
-                    + "username VARCHAR(50) NOT NULL UNIQUE,"
-                    + "password VARCHAR(255) NOT NULL,"
-                    + "role ENUM('admin', 'regular') NOT NULL,"
-                    + "name VARCHAR(100),"
-                    + "surname VARCHAR(100)"
-                    + ");";
+                        + "userId INT AUTO_INCREMENT PRIMARY KEY,"
+                        + "username VARCHAR(50) NOT NULL UNIQUE,"
+                        + "password VARCHAR(255) NOT NULL,"
+                        + "role ENUM('admin', 'regular') NOT NULL,"
+                        + "name VARCHAR(100),"
+                        + "surname VARCHAR(100)"
+                        + ");";
                     
                     // take this String query and execute it 
                     stmt.execute(userTableSQL);
                     
-                    // Check if the admin user already exists
-            String adminCheckSQL = "SELECT * FROM " + USER_TABLE + " WHERE username = 'CCT';";
-            ResultSet resultSet = stmt.executeQuery(adminCheckSQL);
-
-            // If the admin does not exist, insert the admin record
-            if (!resultSet.next()) {
-                String adminInsertSQL = "INSERT INTO " + USER_TABLE + " (username, password, role, name, surname) VALUES ('CCT', 'Dublin', 'admin', 'System', 'Admin');";
-                stmt.executeUpdate(adminInsertSQL);
-                System.out.println("Admin user 'CCT' has been created.");
-            }
-
+                    String adminCheckSQL = "SELECT * FROM " + USER_TABLE + " WHERE username = 'CCT';";
+                    ResultSet resultSet = stmt.executeQuery(adminCheckSQL);
                     
+                    if (!resultSet.next()) {
+                    String adminInsertSQL = "INSERT INTO " + USER_TABLE + " (username, password, role, name, surname) VALUES ('CCT', 'Dublin', 'admin', 'System', 'Admin');";
+                    stmt.executeUpdate(adminInsertSQL);
+                    System.out.println("Admin user 'CCT' has been created.");
+                    }
+                    
+                    String taxTableSQL = "CREATE TABLE IF NOT EXISTS tax_calculations ("
+                        + "calculationId INT AUTO_INCREMENT PRIMARY KEY,"
+                        + "username VARCHAR(50) NOT NULL,"
+                        + "gross_income DECIMAL(10, 2) NOT NULL,"
+                        + "tax_credits DECIMAL(10, 2) NOT NULL,"
+                        + "income_tax DECIMAL(10, 2) NOT NULL,"
+                        + "usc DECIMAL(10, 2) NOT NULL,"
+                        + "prsi DECIMAL(10, 2) NOT NULL,"
+                        + "total_tax DECIMAL(10, 2) NOT NULL,"
+                        + "calculation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+                        + ");";
+                    stmt.execute(taxTableSQL);
                     return true;
+                    
             }catch(Exception e){
                 e.printStackTrace();
                 return false;
             }
     }
+
+
 /*    
     // Main method to test the setup
     public static void main(String[] args) {

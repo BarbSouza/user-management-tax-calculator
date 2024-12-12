@@ -11,12 +11,12 @@ import java.sql.Statement;
 /**
  *
  * @author Barbara
+* @author chrystiandybas
  */
-
-public class DatabaseWriter extends DatabaseConnection {
-
-    // Method to add a new user
-    public boolean addUser(User user) throws SQLException {
+public class DatabaseWriter extends DatabaseConnection{
+    // THis method will write information to the databse 
+    
+     public boolean addUser(User user) throws SQLException {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              Statement stmt = conn.createStatement()) {
             String sql = String.format("INSERT INTO %s (username, password, name, surname, role) VALUES ('%s', '%s', '%s', '%s', 'regular');",
@@ -24,12 +24,14 @@ public class DatabaseWriter extends DatabaseConnection {
             stmt.executeUpdate(sql);
             return true;
         } catch (SQLException e) {
+            if (e.getSQLState().equals("23000")){
+            }else{
             e.printStackTrace();
+            }
             return false;
         }
     }
-
-    // Method to modify user profile (admin or regular user)
+    
     public boolean modifyUserProfile(int userId, String newUsername, String newPassword, String newName, String newSurname) throws SQLException {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              Statement stmt = conn.createStatement()) {
@@ -42,8 +44,7 @@ public class DatabaseWriter extends DatabaseConnection {
             return false;
         }
     }
-
-    // Method to remove a user by userId
+    
     public boolean removeUser(int userId) throws SQLException {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              Statement stmt = conn.createStatement()) {
@@ -55,9 +56,35 @@ public class DatabaseWriter extends DatabaseConnection {
             return false;
         }
     }
+    
+    public boolean addTaxCalculation(TaxCalculation calculation) throws SQLException {
+    try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+         Statement stmt = conn.createStatement()) {
 
-    // Method to modify the admin profile
+        String sql = String.format(
+            "INSERT INTO tax_calculations (username, gross_income, tax_credits, income_tax, usc, prsi, total_tax) " +
+            "VALUES ('%s', %.2f, %.2f, %.2f, %.2f, %.2f, %.2f);",
+            calculation.getUsername(),
+            calculation.getGrossIncome(),
+            calculation.getTaxCredits(),
+            calculation.getIncomeTax(),
+            calculation.getUsc(),
+            calculation.getPrsi(),
+            calculation.getTotalTax()
+        );
+
+        stmt.executeUpdate(sql);
+        return true;
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+        }
+    }
+    
     public boolean modifyAdminProfile(int userId, String newUsername, String newPassword, String newName, String newSurname) throws SQLException {
         return modifyUserProfile(userId, newUsername, newPassword, newName, newSurname);
     }
+    
+    
+    
 }

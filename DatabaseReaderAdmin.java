@@ -9,44 +9,63 @@ import java.util.ArrayList;
 /**
  *
  * @author Barbara
+ * @author chrystiandybas
  */
-
 public class DatabaseReaderAdmin extends DatabaseConnection {
-
-    // Method to get all users for admin to view
-    public ArrayList<User> getAllData() throws SQLException {
+    //Read the user data to the admin from the databse
+    //Now we will create a collection method to store and retrieve the data
+    
+    public ArrayList<User> getAllData() throws SQLException{
+        
         ArrayList<User> users = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement()) {
+        
+        try(//Stabliching Connection with the database
+                    Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+                    Statement stmt = conn.createStatement();
+                    ){
             ResultSet results = stmt.executeQuery("SELECT * FROM " + USER_TABLE + ";");
-
-            while (results.next()) {
+            // Create a check for results and create a while loop to iterate through them
+            while(results.next()){
+                
                 int userId = results.getInt("userId");
                 String username = results.getString("username");
                 String name = results.getString("name");
                 String surname = results.getString("surname");
                 String role = results.getString("role");
-
-                User user = new User(userId, username, "", name, surname, role);  // Password is not needed here
+                
+                User user = new User(userId, username, "", name, surname, role);
                 users.add(user);
             }
-        } catch (SQLException e) {
+                
+        }catch(Exception e){
             e.printStackTrace();
         }
-
+            
+        
+        
         return users;
+        
     }
-
-    // Method to fetch a list of user operations performed (if you have a logging table)
-    public ArrayList<String> getUserOperations() throws SQLException {
-        ArrayList<String> operations = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement()) {
-            String query = "SELECT * FROM user_operations";  // Assuming a table for user operations
-            ResultSet results = stmt.executeQuery(query);
-
+    
+    public ArrayList<TaxCalculation> getUserOperations() throws SQLException {
+        ArrayList<TaxCalculation> operations = new ArrayList<>();
+        try (
+                Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+                Statement stmt = conn.createStatement();
+                ){
+            ResultSet results = stmt.executeQuery("SELECT * FROM " + TAX_TABLE + ";");
             while (results.next()) {
-                operations.add(results.getString("operation"));
+                int calculationId = results.getInt("calculationId");
+                String username = results.getString("username");
+                double grossIncome = results.getDouble("gross_income");
+                double taxCredits = results.getDouble("tax_credits");
+                double incomeTax = results.getDouble("income_tax");
+                double usc = results.getDouble("usc");
+                double prsi = results.getDouble("prsi");
+                double totalTax = results.getDouble("total_tax");
+                
+                TaxCalculation newTax = new TaxCalculation(calculationId, username, grossIncome, taxCredits, incomeTax, usc, prsi, totalTax);
+                operations.add(newTax);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,5 +73,6 @@ public class DatabaseReaderAdmin extends DatabaseConnection {
 
         return operations;
     }
+       
 }
 
