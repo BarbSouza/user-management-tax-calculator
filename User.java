@@ -4,106 +4,123 @@
  */
 
 /**
+ * Authors:
  *
- * @author Barbara
+ * @chrystiandybas @Barbara @Heloi @Matheus
  */
 public class User {
-    //Creating the user Class to handle the user information that will be utilised by the system to add or retrieve the user data from the management database
-    
-    //Atributtes
-    private int userId;
-    private String username;
-    private String password;
-    private String name;
-    private String surname;
-    private String role;
-    
- //Constructors
-    //Add the user to the database
-    public User(int userId, String username, String password, String name, String surname, String role) {
-        this.userId = userId;
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.role = role;
-    }
 
-    // Constructor for regular users (without role)
-    public User(int userId, String username, String password, String name, String surname) {
-        this.userId = userId;
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.role = "regular";
-    }
+  private int userId;
+  private String username;
+  private String password;
+  private String role;
+  private String name;
+  private String surname;
 
-    // Constructor for new users (no id and role)
-    public User(String username, String password, String name, String surname) {
-        this.userId = 0;
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.role = "regular";
-    }
+  /** Used when all user details, including role, are available. */
+  public User(
+      int userId, String username, String password, String name, String surname, String role) {
+    this.userId = userId;
+    this.username = username;
+    this.password = password;
+    this.name = name;
+    this.surname = surname;
+    this.role = role;
+  }
 
-    // Getters and setters
-    public int getUserId() {
-        return userId;
-    }
+  /** Constructor to initialize a user without specifying the role. */
+  public User(int userId, String username, String password, String name, String surname) {
+    this.userId = userId;
+    this.username = username;
+    this.password = password;
+    this.name = name;
+    this.surname = surname;
+    this.role = "regular";
+  }
 
-    public String getUsername() {
-        return username;
-    }
+  /** Constructor to initialize a user with only basic details. */
+  public User(String username, String password, String name, String surname) {
+    this.userId = 0;
+    this.password = password;
+    this.name = name;
+    this.surname = surname;
+    this.role = "regular";
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  /** Gets the user's unique identifier. */
+  public int getUserId() {
+    return userId;
+  }
 
-    public String getName() {
-        return name;
-    }
+  /** Gets the user's username. */
+  public String getUsername() {
+    return username;
+  }
 
-    public String getSurname() {
-        return surname;
-    }
+  /** */
+  public String getPassword() {
+    return password;
+  }
 
-    public String getRole() {
-        return role;
-    }
+  /** Gets the user's first name. */
+  public String getName() {
+    return name;
+  }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+  /** Gets the user's last name. */
+  public String getSurname() {
+    return surname;
+  }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+  /** Gets the user's role in the system. */
+  public String getRole() {
+    return role;
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  /** Sets the user's unique identifier. */
+  public void setUserId(int userId) {
+    this.userId = userId;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  /** Sets the user's username. */
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
+  /** Sets the user's password. */
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
-        @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format("| %-5s | %-13s | %-13s | %-13s | %-13s |\n", "ID", "Username", "Name", "Surname", "Password"))
-          .append("|------------------------------------------------------------------------------------|\n")
-          .append(String.format("| %-5d | %-13s | %-13s | %-13s | %-13s |\n", userId, username, name, surname, password));
-        return sb.toString();
-    }
-  
+  /** Sets the user's first name. */
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  /** Sets the user's last name. */
+  public void setSurname(String surname) {
+    this.surname = surname;
+  }
+
+  /** Sets the user's role in the system. */
+  public void setRole(String role) {
+    this.role = role;
+  }
+
+  /** Generates a string representation of the user. */
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(
+            String.format(
+                "| %-5s | %-13s | %-13s | %-13s | %-13s |\n",
+                "ID", "Username", "Name", "Surname", "Password"))
+        .append(
+            "|------------------------------------------------------------------------------------|\n")
+        .append(
+            String.format(
+                "| %-5d | %-13s | %-13s | %-13s | %-13s |\n",
+                userId, username, name, surname, password));
+    return sb.toString();
+  }
 }

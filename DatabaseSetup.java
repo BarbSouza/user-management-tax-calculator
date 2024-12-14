@@ -10,10 +10,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
+ * This class is responsible for setting up the database structure and ensuring essential tables
+ * and default data are present. It handles creating the database, defining table schemas for
+ * users and tax calculations, and adding default entries, such as an administrative user ('CCT').
+ * Authors:
  *
- * @author Barbara
- * @author chrystiandybas
- * @author heloi
+ * @chrystiandybas @Barbara @Heloi @Matheus
  */
 public class DatabaseSetup extends DatabaseConnection {
     
@@ -94,6 +96,3 @@ public class DatabaseSetup extends DatabaseConnection {
     
  */   
 }
-    
-// create some logic to ensure we do not run into issues with the db connection
-    

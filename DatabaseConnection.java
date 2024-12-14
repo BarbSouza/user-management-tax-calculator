@@ -4,26 +4,31 @@
  */
 
 /**
+ * This class defines the database connection parameters for the user management system. It includes
+ * the base URL, user credentials, and table names for the user and tax calculations. The final DB
+ * URL combines the base URL and schema name to establish the connection to the database.
  *
- * @author Barbara
+ * <p>Authors:
+ *
+ * @chrystiandybas @Barbara @Heloi @Matheus
  */
-public abstract class DatabaseConnection {
-    //Here it will perform the database connection information
-    //CRUD Operations rely on this connection
-    
-    
-    protected final static String DB_BASE_URL = "jdbc:mysql://localhost";
-    protected final static String USER = "ooc2023";
-    protected final static String PASSWORD = "ooc2023";
-    
-    //This schema name may or may not have been created
-    protected final static String DB_NAME = "user_management";
-    protected final static String USER_TABLE = "user";
-    protected final static String TAX_TABLE = "tax_calculations";
-    
-    // Now we create the final Database URL with the schema name 
-    protected final static String DB_URL = DB_BASE_URL + "/" + DB_NAME;
-    
+public class DatabaseConnection {
+
+  // Base URL for the MySQL database connection
+  protected static final String DB_BASE_URL = "jdbc:mysql://localhost";
+
+  // Database credentials
+  protected static final String USER = "ooc2023";
+  protected static final String PASSWORD = "ooc2023";
+
+  // Database name and tables
+  protected static final String DB_NAME = "user_management";
+  protected static final String USER_TABLE = "user";
+  protected static final String TAX_TABLE = "tax_calculations";
+
+  // Final Database URL constructed by combining base URL and database name
+  protected static final String DB_URL = DB_BASE_URL + "/" + DB_NAME;
+
     
     /*
   public static void main(String[] args) {

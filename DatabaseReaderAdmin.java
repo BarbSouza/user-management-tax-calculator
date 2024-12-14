@@ -7,10 +7,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
- *
- * @author Barbara
- * @author chrystiandybas
- */
+   * Retrieves all tax calculation records from the database and stores them in a collection. Each
+   * record is represented by an instance of the TaxCalculation class.
+   */
 public class DatabaseReaderAdmin extends DatabaseConnection {
     //Read the user data to the admin from the databse
     //Now we will create a collection method to store and retrieve the data

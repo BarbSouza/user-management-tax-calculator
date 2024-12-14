@@ -7,21 +7,26 @@ import java.sql.SQLException;
  */
 
 /**
+ * Main class of the application. Responsible for initializing the database and launching the main
+ * menu of the system.
  *
- * @author Barbara
- * @author chrystiandybas
+ * <p>Authors:
+ *
+ * @chrystiandybas @Barbara @Heloi @Matheus
  */
 public class Main {
-    
-    public static void main(String[] args) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        if (DatabaseSetup.setupDB()) {
-            System.out.println("Database has been successfully created or already exists.");
-        } else {
-            System.out.println("Error setting up the database. Please check your connection.");
-        }
-        
-        MainMenu mainMenu = new MainMenu();
-        mainMenu.mainMenu();
-        
+
+  public static void main(String[] args)
+      throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    // Attempt to set up the database (create it or verify its existence).
+    if (DatabaseSetup.setupDB()) {
+      System.out.println("Database has been successfully created or already exists.");
+    } else {
+      System.out.println("Error setting up the database. Please check your connection.");
     }
+
+    // Launch the main menu of the application.
+    MainMenu mainMenu = new MainMenu();
+    mainMenu.mainMenu();
+  }
 }

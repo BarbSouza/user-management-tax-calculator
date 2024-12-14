@@ -13,108 +13,114 @@ import java.util.List;
  */
 
 /**
+ * This class is responsible for interacting with the database to retrieve and manipulate
+ * user-related data. It includes methods for logging in users, retrieving personal data, and
+ * accessing financial data (tax calculations).
  *
- * @author Barbara
-  * @author chrystiandybas
+ * <p>Authors:
+ *
+ * @chrystiandybas @Barbara @Heloi @Matheus
  */
-public class DatabaseReaderUser extends DatabaseConnection{
-    
-    
-    
-    public User loginUser(String username, String password) throws SQLException {
-        User user = null;
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement()) {
-            String query = String.format("SELECT * FROM %s WHERE username='%s' AND password='%s';", USER_TABLE, username, password);
-            ResultSet results = stmt.executeQuery(query);
+public class DatabaseReaderUser extends DatabaseConnection {
 
-            if (results.next()) {
-                // User found, create User object
-                int userId = results.getInt("userId");
-                String name = results.getString("name");
-                String surname = results.getString("surname");
-                String role = results.getString("role");
-                user = new User(userId, username, password, name, surname, role);
-            }
+  // Authenticates the user by checking username and password from the database
+  public User loginUser(String username, String password) throws SQLException {
+    User user = null;
+    try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+        Statement stmt = conn.createStatement()) {
+      String query =
+          String.format(
+              "SELECT * FROM %s WHERE username='%s' AND password='%s';",
+              USER_TABLE, username, password);
+      ResultSet results = stmt.executeQuery(query);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+      if (results.next()) {
+        // User found, create User object
+        int userId = results.getInt("userId");
+        String name = results.getString("name");
+        String surname = results.getString("surname");
+        String role = results.getString("role");
+        user = new User(userId, username, password, name, surname, role);
+      }
 
-        return user;
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
-    //Read the user data to the user from the database
-    //Now we will create a collection method to store and retrieve the data
-    
-    
-        
-    
-    public User getUserData(int userId) throws SQLException {
-        User user = null;
 
-        try (
-            // Establishing connection with the database
-            Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM " + USER_TABLE + " WHERE userId = ?");
-        ) {
-            // Setting the userId parameter
-            pstmt.setInt(1, userId);
+    return user;
+  }
 
-            ResultSet results = pstmt.executeQuery();
-            // If a user is found, extract their data
-            if (results.next()) {
-                String username = results.getString("username");
-                String password = results.getString("password");
-                String name = results.getString("name");
-                String surname = results.getString("surname");
+  // Retrieves the user data from the database using their userId
+  public User getUserData(int userId) throws SQLException {
+    User user = null;
 
-                user = new User(userId, username, password, name, surname);
-                
-                
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return user;
+    try (
+    // Establishing connection with the database
+    Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+        PreparedStatement pstmt =
+            conn.prepareStatement("SELECT * FROM " + USER_TABLE + " WHERE userId = ?")) {
+      // Setting the userId parameter
+      pstmt.setInt(1, userId);
+
+      ResultSet results = pstmt.executeQuery();
+      // If a user is found, extract their data
+      if (results.next()) {
+        String username = results.getString("username");
+        String password = results.getString("password");
+        String name = results.getString("name");
+        String surname = results.getString("surname");
+
+        user = new User(userId, username, password, name, surname);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-    
-    
-        public List<TaxCalculation> getUserFinancialData(int userId) throws SQLException {
-        List<TaxCalculation> userFinancialData = new ArrayList<>();
+    return user;
+  }
 
-        try (
-            Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM " + TAX_TABLE + " WHERE userId = ?");
-        ) {
-            pstmt.setInt(1, userId);
-            ResultSet results = pstmt.executeQuery();
+  // Retrieves the user's financial data (tax calculations) from the database
+  public List<TaxCalculation> getUserFinancialData(int userId) throws SQLException {
+    List<TaxCalculation> userFinancialData = new ArrayList<>();
 
-            while (results.next()) {
-                int calculationId = results.getInt("calculationId");
-                double gross_income = results.getDouble("gross_income");
-                double tax_credits = results.getDouble("tax_credits");
-                double income_tax = results.getDouble("income_tax");
-                double usc = results.getDouble("usc");
-                double prsi = results.getDouble("prsi");
-                double total_tax = results.getDouble("total_tax");
+    try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+        PreparedStatement pstmt =
+            conn.prepareStatement("SELECT * FROM " + TAX_TABLE + " WHERE userId = ?")) {
+      pstmt.setInt(1, userId);
+      ResultSet results = pstmt.executeQuery();
 
-                java.sql.Date calculation_date = results.getDate("calculation_date");
-                String calculationDateStr = calculation_date != null ? calculation_date.toString() : null;
+      while (results.next()) {
+        int calculationId = results.getInt("calculationId");
+        double gross_income = results.getDouble("gross_income");
+        double tax_credits = results.getDouble("tax_credits");
+        double income_tax = results.getDouble("income_tax");
+        double usc = results.getDouble("usc");
+        double prsi = results.getDouble("prsi");
+        double total_tax = results.getDouble("total_tax");
 
-                // Create a new TaxCalculation object for each row
-                TaxCalculation taxCalculation = new TaxCalculation(
-                    userId, calculationId, gross_income, tax_credits, income_tax, usc, prsi, total_tax, calculationDateStr
-                );
+        java.sql.Date calculation_date = results.getDate("calculation_date");
+        String calculationDateStr = calculation_date != null ? calculation_date.toString() : null;
 
-                // Add the TaxCalculation object to the list
-                userFinancialData.add(taxCalculation);
-            }
+        // Create a new TaxCalculation object for each row
+        TaxCalculation taxCalculation =
+            new TaxCalculation(
+                userId,
+                calculationId,
+                gross_income,
+                tax_credits,
+                income_tax,
+                usc,
+                prsi,
+                total_tax,
+                calculationDateStr);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        // Add the TaxCalculation object to the list
+        userFinancialData.add(taxCalculation);
+      }
 
-        return userFinancialData;
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
-    
+
+    return userFinancialData;
+  }
 }
