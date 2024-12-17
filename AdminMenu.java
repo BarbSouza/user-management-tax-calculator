@@ -56,6 +56,7 @@ public class AdminMenu {
                   + "|___ ERROR: Please enter a valid choice. ______|\n"
                   + "|----------------------------------------------|\n"
                   + "|______________________________________________|\n");
+          scanner.nextLine();
         }
 
         // Switch case for admin actions
@@ -136,24 +137,39 @@ public class AdminMenu {
 
           case 3: // Remove a user
             System.out.println(
-                " ______________________________________________ \n"
+                " ________________ \n"
                     + "|--- Enter the user ID to remove --------------|\n"
-                    + "|______________________________________________|\n");
-            int userIdToRemove = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+                    + "|________________|\n");
+            int userIdToRemove = -1; // Initialize with an invalid value
+            boolean validID = false;
+
+            // Loop until a valid integer is entered
+            while (!validID) {
+                if (scanner.hasNextInt()) {
+                    userIdToRemove = scanner.nextInt();
+                    validID = true; // Exit the loop
+                    scanner.nextLine(); // Consume newline
+                } else {
+                    System.out.println(
+                        " ______________________________________________ \n"
+                            + "|--- Invalid input. Please enter a valid ID ---|\n"
+                            + " ______________________________________________ \n");
+                    scanner.nextLine(); // Clear the invalid input
+                }
+            }
 
             // Remove the user from the database
             if (dbWriter.removeUser(userIdToRemove)) {
-              System.out.println(
-                  " ______________________________________________ \n"
-                      + "|--- User removed successfully ----------------|\n"
-                      + "|______________________________________________|\n");
+                System.out.println(
+                    " ______________________________________________ \n"
+                        + "|--- User removed successfully ----------------|\n"
+                        + " ______________________________________________ \n");
             } else {
-              System.out.println(
-                  " ______________________________________________ \n"
-                      + "|--- Failed to remove user --------------------|\n"
-                      + "|--- User ID may not exist --------------------|\n"
-                      + "|______________________________________________|\n");
+                System.out.println(
+                    " ________________ \n"
+                        + "|--- Failed to remove user --------------------|\n"
+                        + "|--- User ID may not exist --------------------|\n"
+                        + " ______________________________________________ \n");
             }
             break;
           case 4: // View tax information

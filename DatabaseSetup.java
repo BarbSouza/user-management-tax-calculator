@@ -21,9 +21,9 @@ public class DatabaseSetup extends DatabaseConnection {
     
     
  public static boolean setupDB() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException{
-    
-      
-            
+     
+
+     
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             
             // try to connect to the databse 
@@ -52,11 +52,17 @@ public class DatabaseSetup extends DatabaseConnection {
                     
                     String adminCheckSQL = "SELECT * FROM " + USER_TABLE + " WHERE username = 'CCT';";
                     ResultSet resultSet = stmt.executeQuery(adminCheckSQL);
+                    
                     if (!resultSet.next()) {
                     String adminInsertSQL = "INSERT INTO " + USER_TABLE + " (username, password, role, name, surname) VALUES ('CCT', 'Dublin', 'admin', 'System', 'Admin');";
                     stmt.executeUpdate(adminInsertSQL);
-                    System.out.println("Admin user 'CCT' has been created.");
+                    System.out.println(
+                    "|--------------------------------------------------------------------|\n"
+                    + "|__ Admin user 'CCT' has been created. ______________________________|\n"
+                    + "|--------------------------------------------------------------------|\n");
                     }
+                    
+                    
                     String taxTableSQL = "CREATE TABLE IF NOT EXISTS tax_calculations ("
                         + "calculationId INT AUTO_INCREMENT PRIMARY KEY, "
                         + "userId INT NOT NULL, "

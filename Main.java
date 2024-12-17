@@ -20,9 +20,24 @@ public class Main {
       throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
     // Attempt to set up the database (create it or verify its existence).
     if (DatabaseSetup.setupDB()) {
-      System.out.println("Database has been successfully created or already exists.");
-    } else {
-      System.out.println("Error setting up the database. Please check your connection.");
+        System.out.println(
+                " ______________________________________________________________________ \n"
+                    + "|--------------------------------------------------------------------|\n"
+                    + "|____________________ User Management System ________________________|\n"
+                    + "|--------------------------------------------------------------------|\n"
+                    + "|_ Database has been successfully created or already exists. ________|\n"
+                    + "|--------------------------------------------------------------------|\n"
+                    + "|____________________________________________________________________|\n");
+        
+    } else{
+        System.out.println(
+                " ______________________________________________________________________ \n"
+                    + "|--------------------------------------------------------------------|\n"
+                    + "|____________________ User Management System ________________________|\n"
+                    + "|--------------------------------------------------------------------|\n"
+                    + "|_ Error setting up the database.  Please check your connection._____|\n"
+                    + "|--------------------------------------------------------------------|\n"
+                    + "|____________________________________________________________________|\n");
     }
 
     // Launch the main menu of the application.
