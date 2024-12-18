@@ -137,9 +137,9 @@ public class AdminMenu {
 
           case 3: // Remove a user
             System.out.println(
-                " ________________ \n"
+                " ______________________________________________ \n"
                     + "|--- Enter the user ID to remove --------------|\n"
-                    + "|________________|\n");
+                    + "|______________________________________________| \n");
             int userIdToRemove = -1; // Initialize with an invalid value
             boolean validID = false;
 
@@ -153,7 +153,7 @@ public class AdminMenu {
                     System.out.println(
                         " ______________________________________________ \n"
                             + "|--- Invalid input. Please enter a valid ID ---|\n"
-                            + " ______________________________________________ \n");
+                            + "|______________________________________________| \n");
                     scanner.nextLine(); // Clear the invalid input
                 }
             }
@@ -163,13 +163,13 @@ public class AdminMenu {
                 System.out.println(
                     " ______________________________________________ \n"
                         + "|--- User removed successfully ----------------|\n"
-                        + " ______________________________________________ \n");
+                        + "|______________________________________________| \n");
             } else {
                 System.out.println(
                     " ________________ \n"
                         + "|--- Failed to remove user --------------------|\n"
                         + "|--- User ID may not exist --------------------|\n"
-                        + " ______________________________________________ \n");
+                        + "|______________________________________________| \n");
             }
             break;
           case 4: // View tax information
